@@ -8,9 +8,9 @@ platformio platform install "https://github.com/OS-Q/P21.git" || {
   exit 1
 }
 # Prepare framework for CI
-python3 -c "import json; import os; fp=open(os.path.expanduser('~/.qio/platforms/P21/link.json'), 'r+'); data=json.load(fp); data['packages']['A21A']['version'] = '*'; fp.seek(0); fp.truncate(); json.dump(data, fp); fp.close()" || {
-  exit 1
-}
+# python3 -c "import json; import os; fp=open(os.path.expanduser('~/.qio/platforms/P21/link.json'), 'r+'); data=json.load(fp); data['packages']['A21A']['version'] = '*'; fp.seek(0); fp.truncate(); json.dump(data, fp); fp.close()" || {
+#   exit 1
+# }
 ln --symbolic "$GITHUB_WORKSPACE" "$HOME/.qio/packages/A21A" || {
   exit 1
 }
@@ -24,6 +24,6 @@ tar --extract --bzip2 --file="$CMSIS_ARCHIVE" || {
 cd "$GITHUB_WORKSPACE/CI/build/" || {
   exit 1
 }
-python3 platformio-builder.py --board=blackpill_f103c8 --board=remram_v1
+python3 platformio-builder.py --board=blackpill_f103c8 --board=nucleo_l031k6
 
 exit $?
