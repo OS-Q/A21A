@@ -13,6 +13,7 @@ RUN pip3 install --quiet -U https://github.com/OS-Q/S03/archive/master.zip
 CMD /bin/bash
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
+COPY builder.py /builder.py
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
