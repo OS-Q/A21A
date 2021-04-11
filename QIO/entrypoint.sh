@@ -22,9 +22,10 @@ qio platform install "https://github.com/OS-Q/P21.git" || {
 # tar --extract --bzip2 --file="$CMSIS_ARCHIVE" || {
 #   exit 1
 # }
-# cd "$GITHUB_WORKSPACE/CI/build/" || {
-#   exit 1
-# }
+cd "$GITHUB_WORKSPACE/QIO/" || {
+  exit 1
+}
+
 python3 builder.py --board="$BOARD"
 
 exit $?
