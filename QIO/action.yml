@@ -1,12 +1,16 @@
 # action.yml
-name: 'QIO Build'
-description: 'Compile using QIO'
+name: 'QIO'
+description: 'Compile by QIO'
 inputs:
   cmsis-version:
     description: 'CMSIS package version to use'
-    default: '5.7.0'
+    default: '5.5.1'
+  board:
+    description: 'Board build for one or more'
+    default: 'nucleo_f401re'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.cmsis-version }}
+    - ${{ inputs.board }}

@@ -4,7 +4,7 @@ description: 'Compiles examples with STM32 core'
 inputs:
   board-pattern:
     description: 'Pattern to build one or more board(s)'
-    default: '' 
+    default: ''
   cli-version:
     description: 'Version of arduino-cli to use when building'
     default: '0.17.0'
@@ -13,7 +13,7 @@ inputs:
     default: ''
   additional-url:
     description: 'Additional URL for the board manager'
-    default: 'https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json'
+    default: 'https://raw.githubusercontent.com/OS-Q/A21/master/package_stm_index.json'
   example-pattern:
     description: 'Pattern to build one or more example(s)'
     default: ''
