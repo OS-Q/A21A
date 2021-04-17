@@ -1,0 +1,62 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*"
+
+env:
+  UPLOAD_BUILD: true
+
+jobs:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         submodules: "recursive"
+  #         fetch-depth: 1
+
+  #     - name: Python
+  #       uses: actions/setup-python@v1
+  #       with:
+  #         python: 3.7
+
+  #     - name: Install
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install -U https://github.com/OS-Q/S03/archive/master.zip
+  #         qio platform install https://github.com/OS-Q/P21.git
+
+  #     - name: Build
+  #       run: |
+  #         qio run -d ${{ matrix.examples }}
+
+  release:
+    # needs:
+    #   - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get source
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 1
+
+      - name: Generate tag
+        id: tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "::set-output name=release_tag::release_package_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
+          echo "::set-output name=status::success"
+
+      - name: Upload Release
+        uses: stopstopstop/release-action@master
+        if: steps.tag.outputs.status == 'success' && !cancelled()
+        env:
+          GITHUB_TOKEN: ${{ secrets.OSQ_REPO_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          files: |
+            src/package_stm_index.json
